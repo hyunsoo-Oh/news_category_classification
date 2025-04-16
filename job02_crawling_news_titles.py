@@ -21,9 +21,9 @@ for i in range(15):
     driver.find_element(By.XPATH, button_xpath).click()
 time.sleep(5)
 
-# 각 세션(j) 당 기사 6(i)개
-for i in range(1, 6):
-    for j in range(1, 7):
+# container 1칸에 6개 titles
+for i in range(1, 7): # container
+    for j in range(1, 7): # title
         title_path = '//*[@id="newsct"]/div[4]/div/div[1]/div[{}]/ul/li[{}]/div/div/div[2]/a/strong'.format(i, j)
         try:
             title = driver.find_element(By.XPATH, title_path).text

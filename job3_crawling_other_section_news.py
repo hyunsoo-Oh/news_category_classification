@@ -1,3 +1,7 @@
+# Data Frame : titles, category
+# crawling_data : naver_sections_news_20250416.csv
+# 모든 Section 3번 컨테이너 없음
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -24,14 +28,18 @@ for section_id in range(6):
     button_xpath = '//*[@id="newsct"]/div[{}]/div/div[2]'.format(5 if section_id == 1 else 4)
 
     # 더보기 버튼 클릭 (최대 15번)
-    for i in range(7):
-        time.sleep(0.5)
-        driver.find_element(By.XPATH, button_xpath).click()
+    cnt = [0, 0, 0, 0, 0, 0];
+    for i in range(200): # 6개의 컨테이너
+        try:
+            time.sleep(0.5)
+            driver.find_element(By.XPATH, button_xpath).click()
+            cnt[section_id] += 1
+        except:
+            break
     time.sleep(2)
-
     # 기사 수집 : container 1칸에 6개 titles
     titles = []
-    for i in range(1, 7):  # container
+    for i in range(1, cnt[section_id]+1):  # container
         for j in range(1, 7):  # title
             s = 4 if section_id != 1 else 5
             title_path = '//*[@id="newsct"]/div[{}]/div/div[1]/div[{}]/ul/li[{}]/div/div/div[2]/a/strong'.format(s, i, j)
